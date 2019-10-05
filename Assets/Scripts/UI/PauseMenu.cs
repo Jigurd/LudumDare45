@@ -41,13 +41,11 @@ public class PauseMenu : MonoBehaviour
         {
             // Pause the game
             GameState.Paused = true;
-            Time.timeScale = 0.0f;
         }
         else
         {
             // Resume the game
             GameState.Paused = false;
-            Time.timeScale = 1.0f;
         }
     }
 }
