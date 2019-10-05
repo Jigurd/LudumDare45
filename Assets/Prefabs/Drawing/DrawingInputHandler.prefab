@@ -43,4 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83383247d4bbda325a33b4c6e57b4637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drawingPrefab: {fileID: 0}
+  _debugLogEnabled: 0
+  _drawingPrefab: {fileID: 163442996491568039, guid: a78074e581fa01a0b8300b4e5c27e11c,
+    type: 3}

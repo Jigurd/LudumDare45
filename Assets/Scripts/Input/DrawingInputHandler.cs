@@ -28,6 +28,12 @@ public class DrawingInputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Don't do anything if game is paused
+        if (GameState.Paused)
+        {
+            return;
+        }
+
         // User starts holding left mouse button
         if (Input.GetMouseButtonDown(0))
         {
