@@ -23,19 +23,28 @@ public class Controller : MonoBehaviour
 
     }
 
-    public void Move(Vector3 velocity)
+    //returns true if we hit the floor
+    public bool Move(Vector3 velocity)
     {
+        bool hitGround = false;
         UpdateRaycastOrigins();
-        if(velocity.x != 0)
+        if (velocity.x != 0)
         {
             HorizontalCollisions(ref velocity);
         }
 
-        if(velocity.y != 0)
+        if (velocity.y != 0)
         {
-            VerticalCollisions(ref velocity);
+            if(VerticalCollisions(ref velocity))
+            {
+                hitGround = true;
+            }
+
+            
         }
         transform.Translate(velocity);
+        return hitGround;
+
     }
 
     void CalculateRaySpacing()
@@ -69,12 +78,15 @@ public class Controller : MonoBehaviour
             {
                 velocity.x = (hit.distance - skinWidth) * directionX;
                 rayLength = hit.distance;
+
             }
         }
     }
 
-    void VerticalCollisions(ref Vector3 velocity)
+    //returns true if we hit the floor
+    bool VerticalCollisions(ref Vector3 velocity)
     {
+        bool hitSomething = false;
         float directionY = Mathf.Sign(velocity.y);
         float rayLength = Mathf.Abs(velocity.y) + skinWidth;
 
@@ -90,8 +102,10 @@ public class Controller : MonoBehaviour
             {
                 velocity.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;
+                hitSomething = true;
             }
         }
+        return hitSomething;
     }
 
     void UpdateRaycastOrigins()
