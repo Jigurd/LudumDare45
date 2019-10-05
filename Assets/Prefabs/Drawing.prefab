@@ -72,7 +72,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.045
     widthCurve:
       serializedVersion: 2
       m_Curve:
