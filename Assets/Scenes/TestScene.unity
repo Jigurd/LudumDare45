@@ -179,6 +179,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114719960288800792, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: timeToJumpApex
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114719960288800792, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: jumpHeight
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113822174451170021, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: gravity
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113822174451170021, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: jumpHeight
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113822174451170021, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: timeToJumpApex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113822174451170021, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31c18f2a618c5494ba422a8718b6dfce, type: 3}
 --- !u!1 &986124055

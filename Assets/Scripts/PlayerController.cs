@@ -5,20 +5,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Actor actor;
+    Controller controller;
 
-    //jump stuff
-    bool canJump = true;
-    public float jumpHeight;
+    
 
     void Start()
     {
+        controller = GetComponent<Controller>();
         actor = GetComponent<Actor>();
-        actor.HitGround += OnHitGround;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         HandleMovement();
     }
 
@@ -28,12 +28,10 @@ public class PlayerController : MonoBehaviour
         actor.velocity.x = 0;
 
         //if the player is jumping, add jump velocity to jump
-        if (Input.GetButtonDown("Jump") && canJump == true)
+        if (Input.GetButtonDown("Jump") && controller.collisions.below)
         {
-            actor.velocity.y += jumpHeight;
-            canJump = false;
+            actor.velocity.y += actor.jumpVelocity;
         }
-
         //move left
         if (Input.GetButton("Left"))
         {
@@ -44,11 +42,5 @@ public class PlayerController : MonoBehaviour
         {
             actor.velocity.x += actor.moveSpeed;
         }
-    }
-
-    //when Actor tells us we've hit the ground
-    void OnHitGround()
-    {
-        canJump = true;
     }
 }
