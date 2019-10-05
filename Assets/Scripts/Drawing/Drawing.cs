@@ -6,6 +6,7 @@ using UnityEngine;
 /// A standard drawing with no physics or fancy stuff.
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(EdgeCollider2D))]
 public class Drawing : MonoBehaviour
 {
     // The previous position of the drawing
@@ -14,11 +15,20 @@ public class Drawing : MonoBehaviour
     // The line renderer representing the drawing
     private LineRenderer _lineRenderer = null;
 
+    // The collider of the drawing
+    private EdgeCollider2D _collider = null;
+
+    // The points of the drawing
+    private List<Vector2> _collisionPoints = null;
+
     private void Awake()
     {
         // Set up
         _lineRenderer = GetComponent<LineRenderer>();
+        _collider = GetComponent<EdgeCollider2D>();
         _previousPosition = transform.position;
+        _collisionPoints = new List<Vector2>();
+        _collisionPoints.Add(Vector2.zero);
     }
 
     // Runs every frame
@@ -55,5 +65,18 @@ public class Drawing : MonoBehaviour
         // Set the last point to be the new point.
         _lineRenderer.positionCount++;
         _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, point);
+
+        // Update the collider
+        Vector2 collisionPoint = new Vector2(
+            point.x - transform.position.x,
+            point.y - transform.position.y
+        );
+
+        _collisionPoints.Add(collisionPoint);
+
+        if (_collisionPoints.Count > 1)
+        {
+            _collider.points = _collisionPoints.ToArray();
+        }
     }
 }
