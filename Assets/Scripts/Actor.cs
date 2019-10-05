@@ -5,7 +5,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     //controls how fast actor falls
-    [Range(0.05f, 0.5f)]
+    [Range(-1f, -5f)]
     public float gravity;
     Vector3 velocity;
 
@@ -15,7 +15,7 @@ public class Actor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GetComponent<Controller>();
     }
 
     // Update is called once per frame
