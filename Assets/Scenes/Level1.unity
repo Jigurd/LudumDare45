@@ -194,6 +194,17 @@ PrefabInstance:
       propertyPath: SpawnPoint
       value: 
       objectReference: {fileID: 850014881}
+    - target: {fileID: 114719960288800792, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: Door
+      value: 
+      objectReference: {fileID: 2806510408831870648, guid: 2004ea79c0d54d349ae365674d7c3dce,
+        type: 3}
+    - target: {fileID: 114719960288800792, guid: 31c18f2a618c5494ba422a8718b6dfce,
+        type: 3}
+      propertyPath: DoorMask.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     - target: {fileID: 6113822174451170021, guid: 31c18f2a618c5494ba422a8718b6dfce,
         type: 3}
       propertyPath: gravity
@@ -469,11 +480,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806510408831870648, guid: 2004ea79c0d54d349ae365674d7c3dce,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6990830433926234835, guid: 2004ea79c0d54d349ae365674d7c3dce,
         type: 3}
