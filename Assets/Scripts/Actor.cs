@@ -40,10 +40,12 @@ public class Actor : MonoBehaviour
         print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
-        
+        if (GameState.Paused)
+        {
+            return;
+        }
         //apply gravity to velocity
 
         velocity.y += gravity * Time.deltaTime;
