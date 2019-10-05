@@ -16,6 +16,8 @@ public class Controller : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
+    public CollisionInfo collisions;
+
     void Start()
     {
         collision = GetComponent<BoxCollider2D>();
@@ -24,9 +26,10 @@ public class Controller : MonoBehaviour
     }
 
     //returns true if we hit the floor
-    public bool Move(Vector3 velocity)
+    public void Move(Vector3 velocity)
     {
-        bool hitGround = false;
+        collisions.Reset();
+
         UpdateRaycastOrigins();
         if (velocity.x != 0)
         {
@@ -35,16 +38,9 @@ public class Controller : MonoBehaviour
 
         if (velocity.y != 0)
         {
-            if(VerticalCollisions(ref velocity))
-            {
-                hitGround = true;
-            }
-
-            
+            VerticalCollisions(ref velocity);
         }
         transform.Translate(velocity);
-        return hitGround;
-
     }
 
     void CalculateRaySpacing()
@@ -79,14 +75,16 @@ public class Controller : MonoBehaviour
                 velocity.x = (hit.distance - skinWidth) * directionX;
                 rayLength = hit.distance;
 
+                collisions.left = directionX == -1;
+                collisions.right = directionX == 1;
+
             }
         }
     }
 
     //returns true if we hit the floor
-    bool VerticalCollisions(ref Vector3 velocity)
+    void VerticalCollisions(ref Vector3 velocity)
     {
-        bool hitSomething = false;
         float directionY = Mathf.Sign(velocity.y);
         float rayLength = Mathf.Abs(velocity.y) + skinWidth;
 
@@ -102,10 +100,11 @@ public class Controller : MonoBehaviour
             {
                 velocity.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;
-                hitSomething = true;
+
+                collisions.below = directionY == -1;
+                collisions.above = directionY == 1;
             }
         }
-        return hitSomething;
     }
 
     void UpdateRaycastOrigins()
@@ -124,6 +123,18 @@ public class Controller : MonoBehaviour
     {
         public Vector2 topLeft, topRight;
         public Vector2 bottomLeft, bottomRight;
+    }
+
+    public struct CollisionInfo
+    {
+        public bool above, below;
+        public bool left, right;
+
+        public void Reset()
+        {
+            above = below = false;
+            left = right = false;
+        }
     }
 }
 
