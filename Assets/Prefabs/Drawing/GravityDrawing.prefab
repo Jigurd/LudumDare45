@@ -11,13 +11,10 @@ GameObject:
   - component: {fileID: 163442996491568037}
   - component: {fileID: 163442996491568036}
   - component: {fileID: 163442996491568034}
-<<<<<<< HEAD
-  m_Layer: 0
-=======
   - component: {fileID: 68238957612609680}
-  m_Layer: 10
->>>>>>> 270b5952fa9908f89cc7e6842fa27d8be6a97747
-  m_Name: Drawing
+  - component: {fileID: 50850869553956876}
+  m_Layer: 0
+  m_Name: GravityDrawing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,4 +139,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc4f390d582534bc8afa601ec576b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineThickness: 0.05
+--- !u!68 &68238957612609680
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163442996491568039}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0.05
+  m_Points: []
+--- !u!50 &50850869553956876
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163442996491568039}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

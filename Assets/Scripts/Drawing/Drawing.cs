@@ -6,29 +6,37 @@ using UnityEngine;
 /// A standard drawing with no physics or fancy stuff.
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(EdgeCollider2D))]
 public class Drawing : MonoBehaviour
 {
+    // The thickness of the drawing's lines
+    [SerializeField] private float _lineThickness = 0.5f;
+
     // The previous position of the drawing
     private Vector3 _previousPosition = Vector3.zero;
 
     // The line renderer representing the drawing
     private LineRenderer _lineRenderer = null;
 
-    // The collider of the drawing
-    private EdgeCollider2D _collider = null;
-
     // The points of the drawing
-    private List<Vector2> _collisionPoints = null;
+    private List<Vector2> _points = null;
+
+    // Invoked when a point is added to the drawing
+    public delegate void OnPointAdded(Vector2[] points);
+    public event OnPointAdded OnPointAddedEvent;
+
+    public float LineThickness
+    {
+        get => _lineThickness;
+        protected set => _lineThickness = value;
+    }
+
 
     private void Awake()
     {
         // Set up
         _lineRenderer = GetComponent<LineRenderer>();
-        _collider = GetComponent<EdgeCollider2D>();
         _previousPosition = transform.position;
-        _collisionPoints = new List<Vector2>();
-        _collisionPoints.Add(Vector2.zero);
+        _points = new List<Vector2>();
     }
 
     // Runs every frame
@@ -61,6 +69,7 @@ public class Drawing : MonoBehaviour
     /// <param name="point">The point to be added.</param>
     public void AddPoint(Vector3 point)
     {
+        _points.Add(point);
         // Increase the line renderer's count;
         // Set the last point to be the new point.
         _lineRenderer.positionCount++;
@@ -72,11 +81,6 @@ public class Drawing : MonoBehaviour
             point.y - transform.position.y
         );
 
-        _collisionPoints.Add(collisionPoint);
-
-        if (_collisionPoints.Count > 1)
-        {
-            _collider.points = _collisionPoints.ToArray();
-        }
+        OnPointAddedEvent?.Invoke(_points.ToArray());
     }
 }
