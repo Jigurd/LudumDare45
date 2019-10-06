@@ -24,6 +24,7 @@ public class DrawingCollider : MonoBehaviour
         _drawing.OnPointAddedEvent += OnPointAdded;
 
         _collider = GetComponent<PolygonCollider2D>();
+        _collider.points = null;
     }
 
     /// <summary>
@@ -42,6 +43,8 @@ public class DrawingCollider : MonoBehaviour
         // c3 = p2 + r * v + r * n
         // c4 = p1 - r * v + r * n
         // This should be correct, I did a whiteboard thing.
+        // Actually this is not correct since the line radius doesn't
+        // affect the length, thus v should be ignored
         if (points.Length > 1)
         {
             // Create a path for each line segment
@@ -62,10 +65,10 @@ public class DrawingCollider : MonoBehaviour
 
                 // Create a path
                 Vector2[] path = new Vector2[4];
-                path[0] = p1 - r * v - r * n - position;
-                path[1] = p2 + r * v - r * n - position;
-                path[2] = p2 + r * v + r * n - position;
-                path[3] = p1 - r * v + r * n - position;
+                path[0] = p1 /*- r * v*/ - r * n - position;
+                path[1] = p2 /*+ r * v*/ - r * n - position;
+                path[2] = p2 /*+ r * v*/ + r * n - position;
+                path[3] = p1 /*- r * v*/ + r * n - position;
                 _collider.SetPath(i - 1, path);
             }
             //_collider.points = something;//collisionPoints.ToArray();
