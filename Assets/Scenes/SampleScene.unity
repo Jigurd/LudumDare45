@@ -574,6 +574,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DrawingInputHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 3118801443200888760, guid: 7ea87f545289ebae2bc9dba08b96e476,
+        type: 3}
+      propertyPath: _debugLogEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3118801443200888761, guid: 7ea87f545289ebae2bc9dba08b96e476,
         type: 3}
       propertyPath: m_LocalPosition.x
