@@ -19,8 +19,6 @@ public class Actor : MonoBehaviour
     //jump related stuff
     public float jumpHeight = 4;
     public float timeToJumpApex = .4f;
-    float accelerationTimeAirborne = .2f;
-    float accelerationTimeGrounded = .1f;
 
     float gravity;
     public float jumpVelocity;
@@ -55,9 +53,9 @@ public class Actor : MonoBehaviour
         {
             velocity.y *= fallSpeedMultiplier;
         }
-        
 
-        //move player. If we hit the floor, set y-direction velocity to 0 and re-enable jumping
+
+        //move actor. If we hit the floor, set y-direction velocity to 0
         controller.Move(velocity * Time.deltaTime);
 
         if (controller.collisions.above || controller.collisions.below)
