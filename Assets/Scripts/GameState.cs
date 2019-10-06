@@ -5,4 +5,7 @@ public static class GameState
 {
     // Whether or not the game is paused
     public static bool Paused = false;
+
+    // The current level
+    public static int CurrentLevel = 1;
 }

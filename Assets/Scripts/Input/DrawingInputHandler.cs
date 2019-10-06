@@ -11,8 +11,17 @@ public class DrawingInputHandler : MonoBehaviour
     // The prefab to instantiate when creating a drawing
     [SerializeField] private GameObject _drawingPrefab = null;
 
+    // The layermask used to detect if we're drawing on paper
+    [SerializeField] private LayerMask _layerMask = 0;
+
+    // The papers that we can draw on
+    //[SerializeField] private Paper[] _papers = null;
+
     // Whether the player is currently working on a masterpiece
     private bool _isDrawing = false;
+
+    // Whether the player is allowed to draw
+    private bool _canDraw = true;
 
     // The drawing we are currently working on
     private Drawing _drawing = null;
@@ -59,8 +68,37 @@ public class DrawingInputHandler : MonoBehaviour
             return;
         }
 
+        // Check if drawing is allowed
+        // i.e. at least one paper has the mouse over it
+        _canDraw = false;
+        //foreach (Paper paper in _papers)
+        //{
+        //    if (paper.MouseOver)
+        //    {
+        //        _canDraw = true;
+        //        break;
+        //    }
+        //}
+
+        // The above doesn't work because colliders on top
+        // of the paper ruin everything
+
+        // Use a raycast to check if there'e paper beneath the cursor
+        Ray ray =
+            _mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(
+            _mainCamera.ScreenToWorldPoint(Input.mousePosition),
+            ray.direction,
+            Mathf.Infinity,
+            _layerMask
+        );
+        if (hit)
+        {
+            _canDraw = true;
+        }
+
         // User starts holding left mouse button
-        if (Input.GetMouseButtonDown(0))
+        if (!_isDrawing && Input.GetMouseButtonDown(0))
         {
             // Start drawing
             _isDrawing = true;
@@ -134,7 +172,7 @@ public class DrawingInputHandler : MonoBehaviour
         }
 
         // User stops holding left mouse button
-        if (Input.GetMouseButtonUp(0))
+        if (_isDrawing && Input.GetMouseButtonUp(0))
         {
             Vector2 point =
                 _mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -200,13 +238,26 @@ public class DrawingInputHandler : MonoBehaviour
         // The player is currently drawing
         if (_isDrawing)
         {
-            // ... and moving their cursor
-            if (Input.mousePosition != _previousMousePosition)
+            // ... and they're staying within the allowed area
+            if (_canDraw)
             {
-                // Add to the drawing / line renderer
-                Vector2 point = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                _drawing.AddPoint(point);
-                _previousMousePosition = Input.mousePosition;
+                // ... and moving their cursor
+                if (Input.mousePosition != _previousMousePosition)
+                {
+                    // Add to the drawing / line renderer
+                    Vector2 point =
+                        _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+                    _drawing.AddPoint(point);
+                    _previousMousePosition = Input.mousePosition;
+                }
+            }
+            else
+            {
+                // Went outside bounds, destroy drawing
+                Destroy(_drawing.gameObject);
+                _isDrawing = false;
+                _drawing = null;
             }
         }
     }
@@ -225,5 +276,42 @@ public class DrawingInputHandler : MonoBehaviour
         Doodle,     // A drawing with no effect on the game
         Standard,   // A static drawing with collision
         Gravity,    // A physics-enabled drawing with collision
+    }
+
+    /*
+    // Called when the mouse enters collider.
+    private void OnMouseEnter()
+    {
+        // We use the collider to check where we can draw
+        // Anywhere within the collider is forbidden
+        // Anywhere else is ok
+        _canDraw = false;
+    }
+
+    // Called when the mouse exits collider.
+    private void OnMouseExit()
+    {
+        // We use the collider to check where we can draw
+        // Anywhere within the collider is forbidden
+        // Anywhere else is ok
+        _canDraw = true;
+
+        if (_debugLogEnabled)
+        {
+            Debug.Log("Drawing enabled", this);
+        }
+    }
+    */
+
+    // Called when the game object is destroyed
+    private void OnDestroy()
+    {
+        // We can now make a new DrawingInputHandler
+        _instantiated = false;
+
+        if (_debugLogEnabled)
+        {
+            Debug.Log("Drawing disabled", this);
+        }
     }
 }
