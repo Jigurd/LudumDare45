@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debugLogEnabled: 0
-  _drawingPrefab: {fileID: 163442996491568039, guid: a78074e581fa01a0b8300b4e5c27e11c,
+  _drawingPrefab: {fileID: 5691805435426562403, guid: a78074e581fa01a0b8300b4e5c27e11c,
     type: 3}

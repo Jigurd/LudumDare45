@@ -14,6 +14,9 @@ public class Drawing : MonoBehaviour
     // The previous position of the drawing
     private Vector3 _previousPosition = Vector3.zero;
 
+    // The previous rotation of the drawing
+    private float _previousRotation = 0.0f;
+
     // The line renderer representing the drawing
     private LineRenderer _lineRenderer = null;
 
@@ -35,6 +38,9 @@ public class Drawing : MonoBehaviour
     {
         // Set up
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.startWidth = _lineThickness;
+        _lineRenderer.endWidth = _lineThickness;
+        _lineRenderer.positionCount = 0;
         _previousPosition = transform.position;
         _points = new List<Vector2>();
     }
@@ -43,23 +49,35 @@ public class Drawing : MonoBehaviour
     void Update()
     {
         // Get amount the transform has moved this frame
-        Vector3[] points = new Vector3[_lineRenderer.positionCount];
-        _lineRenderer.GetPositions(points);
         Vector3 movementSinceLastFrame = transform.position - _previousPosition;
+
+        // Get the amount we have rotated
+        float rotationSinceLastFrame =
+            transform.eulerAngles.z - _previousRotation;
+
 
         // If we have moved
         if (movementSinceLastFrame != Vector3.zero)
         {
+            Vector3[] points = new Vector3[_lineRenderer.positionCount];
+            _lineRenderer.GetPositions(points);
             // Set line renderer positions to its original positions
-            // plus the amount we have moved
+            // plus the amount we have moved and rotated
             for (int i = 0; i < _lineRenderer.positionCount; i++)
             {
                 points[i] += movementSinceLastFrame;
+
+                // The position of this point relative to points[0]
+                Vector2 relativePosition = points[i] - points[0];
+                points[i] =
+                    points[0] + Quaternion.Euler(0, 0, rotationSinceLastFrame)
+                    * relativePosition;
             }
             _lineRenderer.SetPositions(points);
 
             // Update our previous position
             _previousPosition = transform.position;
+            _previousRotation = transform.eulerAngles.z;
         }
     }
 
