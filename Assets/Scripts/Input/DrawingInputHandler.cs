@@ -203,7 +203,7 @@ public class DrawingInputHandler : MonoBehaviour
                     case DrawingType.Standard:
                         break;
                     case DrawingType.Gravity:
-                        drawingGO.AddComponent<Rigidbody2D>();
+                        Rigidbody2D rb = drawingGO.AddComponent<Rigidbody2D>();
                         break;
                     default:
                         // Should never happen
