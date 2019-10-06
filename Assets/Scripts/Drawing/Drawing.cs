@@ -11,6 +11,9 @@ public class Drawing : MonoBehaviour
     // The thickness of the drawing's lines
     [SerializeField] private float _lineThickness = 0.5f;
 
+    // The colour of the drawing
+    [SerializeField] private Color _color = Color.red;
+
     // The previous position of the drawing
     private Vector3 _previousPosition = Vector3.zero;
 
@@ -38,9 +41,17 @@ public class Drawing : MonoBehaviour
     {
         // Set up
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = 0;
+
+        // Apply line thickness
         _lineRenderer.startWidth = _lineThickness;
         _lineRenderer.endWidth = _lineThickness;
-        _lineRenderer.positionCount = 0;
+
+        // Apply line colour
+        //_lineRenderer.material.color = _color;
+        _lineRenderer.startColor = _color;
+        _lineRenderer.endColor = _color;
+
         _previousPosition = transform.position;
         _points = new List<Vector2>();
     }
