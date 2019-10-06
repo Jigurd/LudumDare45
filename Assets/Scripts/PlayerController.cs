@@ -117,7 +117,6 @@ public class PlayerController : MonoBehaviour
         //disable LOS barriers on the left, enable on the right
         private void TurnRight()
         {
-            Debug.Log("Right");
             TopLeft.enabled = true;
             BottomLeft.enabled = true;
             TopRight.enabled = false;
@@ -127,7 +126,6 @@ public class PlayerController : MonoBehaviour
         //disable LOS barriers on the right, enable on the left
         private void TurnLeft()
         {
-            Debug.Log("Left");
             TopLeft.enabled = false;
             BottomLeft.enabled = false;
             TopRight.enabled = true;

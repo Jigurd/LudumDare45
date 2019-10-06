@@ -11,7 +11,7 @@ public class Controller : MonoBehaviour
     public LayerMask collisionMask;
 
     const float skinWidth = 0.15f;
-    public int rayCount = 4;
+    private int rayCount = 4;
 
     float horizontalRaySpacing;
     float verticalRaySpacing;
@@ -82,7 +82,6 @@ public class Controller : MonoBehaviour
         }
     }
 
-    //returns true if we hit the floor
     void VerticalCollisions(ref Vector3 velocity)
     {
         float directionY = Mathf.Sign(velocity.y);
