@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Floater : MonoBehaviour
 {
-    private Controller _controller;
     private GameObject _player;
     private SpriteRenderer _spriteRenderer;
 
     [SerializeField]
     public float moveSpeed;
 
-    private LayerMask _layerMask;
+    public LayerMask _layerMask;
 
     void Start()
     {
-        _controller = GetComponent<Controller>();
         _player = GameObject.Find("Player");
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -28,13 +26,15 @@ public class Floater : MonoBehaviour
         Vector3 dir = (_player.transform.position - pos).normalized;
         //raycast to player
         RaycastHit2D hit = Physics2D.Raycast(pos, dir , Mathf.Infinity, _layerMask);
-        Debug.DrawRay(pos, dir * 10, Color.red);
+        Debug.DrawRay(pos, dir * moveSpeed, Color.red);
 
+        //If we hit anything in our LayerMask other than Player, he can't see us
         //if player isn't looking at us, become green and move towards him
         if (hit && !hit.collider.CompareTag("Player"))
         { 
             _spriteRenderer.color = Color.green;
-            _controller.Move(dir * moveSpeed * Time.deltaTime);
+            //move speed towards him
+            transform.Translate(dir * moveSpeed * Time.deltaTime);
         } else if (hit && hit.collider.CompareTag("Player")) //if he is looking at us
         {
             //turn red and don't move
@@ -44,9 +44,9 @@ public class Floater : MonoBehaviour
         {
             Debug.Log("Wtf no hit");
         }
-        //If we hit anything in our LayerMask other than Player, we can't see him
         
-        //move speed towards him
+        
+        
 
 
         
