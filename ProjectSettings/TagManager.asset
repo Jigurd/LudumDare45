@@ -18,7 +18,7 @@ TagManager:
   - Ground
   - Door
   - EnemyLOS
-  - 
+  - Paper
   - 
   - 
   - 
@@ -40,6 +40,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3444764929
+    locked: 0
+  - name: Level
+    uniqueID: 1584006703
+    locked: 0
+  - name: Drawing
+    uniqueID: 3065488387
+    locked: 0
+  - name: Actors
+    uniqueID: 1212751175
     locked: 0
   - name: UI
     uniqueID: 115549255

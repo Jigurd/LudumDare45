@@ -46,3 +46,6 @@ MonoBehaviour:
   _debugLogEnabled: 0
   _drawingPrefab: {fileID: 5691805435426562403, guid: a78074e581fa01a0b8300b4e5c27e11c,
     type: 3}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 8192

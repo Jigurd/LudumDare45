@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
     void WinLevel()
     {
         Debug.Log("Yay, you win!");
+        SceneManager.LoadScene("Level" + ++GameState.CurrentLevel);
     }
 
     //the definitely-not-boos shoot a ray at the player, and if it hits they can be seen and are not allowed to move.
