@@ -5,7 +5,7 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     // Whether the pause menu is enabled or not
-    private bool _enabled = false;
+    private bool _enabled = true;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour
     /// Toggles the pause menu.
     /// </summary>
     /// <param name="enabled">The new state of the pause menu.</param>
-    private void SetPauseMenuEnabled(bool enabled)
+    public void SetPauseMenuEnabled(bool enabled)
     {
         _enabled = enabled;
         // Set each child to the desired state

@@ -12,6 +12,7 @@ public class CameraResizer : MonoBehaviour
     [SerializeField] private float _orthographicWidth = 5.0f;
 
     // The desired aspect ratio
+    // This is actually the inverse aspect ratio, should probably fix that
     [SerializeField] private float _aspectRatio = 1.6f;
 
     // The desired half height of the camera view

@@ -35,6 +35,11 @@ public class LevelScrolling : MonoBehaviour
 
     private void Update()
     {
+        if (GameState.Paused)
+        {
+            return;
+        }
+
         // Scroll
         foreach (Transform paper in _papers)
         {
