@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Button
   - Switch
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -14,6 +14,12 @@ public class Drawing : MonoBehaviour
     // The colour of the drawing
     [SerializeField] private Color _color = Color.red;
 
+    // The maximum length of the drawing
+    [SerializeField] private float _maxLength = 2.5f;
+
+    // The current length of the drawing
+    private float _length = 0.0f;
+
     // The previous position of the drawing
     private Vector3 _previousPosition = Vector3.zero;
 
@@ -25,6 +31,7 @@ public class Drawing : MonoBehaviour
 
     // The points of the drawing
     private List<Vector2> _points = null;
+    private List<Vector3> _pointsVec3 = null;
 
     // Invoked when a point is added to the drawing
     public delegate void OnPointAdded(Vector2[] points);
@@ -54,6 +61,7 @@ public class Drawing : MonoBehaviour
 
         _previousPosition = transform.position;
         _points = new List<Vector2>();
+        _pointsVec3 = new List<Vector3>();
     }
 
     // Runs every frame
@@ -102,16 +110,55 @@ public class Drawing : MonoBehaviour
     public void AddPoint(Vector3 point)
     {
         _points.Add(point);
+        _pointsVec3.Add(point);
+        if (_points.Count > 1)
+        {
+            _length +=
+                (_points[_points.Count - 1] - _points[_points.Count - 2])
+                .magnitude;
+        }
+
         // Increase the line renderer's count;
         // Set the last point to be the new point.
+
         _lineRenderer.positionCount++;
+
+        if (_length > _maxLength)
+        {
+            // Remove points until our drawing is small
+            Debug.Log("Removing length: ");
+            while (_length > _maxLength && _points.Count > 1)
+            {
+                // Remove the first point entirely
+                _length -= (_points[1] - _points[0]).magnitude;
+                _points.RemoveAt(0);
+                _pointsVec3.RemoveAt(0);
+                _lineRenderer.positionCount--;
+                //Debug.Log(_length);
+            }
+            //for (int i = 0; i < _points.Count; i++)
+            //{
+                /*
+                if (_points[i] != new Vector2(_pointsVec3[i].x, _pointsVec3[i].y))
+                {
+                    Debug.LogError(
+                        "_points and _pointsVec3 desynchronised", this
+                    );
+                }
+                */
+            //}
+
+            _lineRenderer.SetPositions(_pointsVec3.ToArray());
+        }
         _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, point);
 
         // Update the collider
+        /* This seems to do nothing?
         Vector2 collisionPoint = new Vector2(
             point.x - transform.position.x,
             point.y - transform.position.y
         );
+        */
 
         OnPointAddedEvent?.Invoke(_points.ToArray());
     }

@@ -11,9 +11,6 @@ public class DrawingInputHandler : MonoBehaviour
     // The prefab to instantiate when creating a drawing
     [SerializeField] private GameObject _drawingPrefab = null;
 
-    // The parent of instantiated drawings
-    [SerializeField] private Transform _drawingParent = null;
-
     // The layermask used to detect if we're drawing on paper
     [SerializeField] private LayerMask _layerMask = 0;
 
@@ -28,6 +25,9 @@ public class DrawingInputHandler : MonoBehaviour
 
     // The drawing we are currently working on
     private Drawing _drawing = null;
+
+    // The drawing's parent
+    private Transform _drawingParent = null;
 
     // The id of the current drawing
     private int _drawingId = 1;
@@ -98,6 +98,7 @@ public class DrawingInputHandler : MonoBehaviour
         if (hit)
         {
             _canDraw = true;
+            _drawingParent = hit.collider.transform;
         }
 
         // User starts holding left mouse button
@@ -115,7 +116,7 @@ public class DrawingInputHandler : MonoBehaviour
                 _drawingPrefab,
                 point,
                 Quaternion.identity,
-                hit.collider.transform
+                transform //hit.collider.transform
             ).GetComponent<Drawing>();
 
             // Apply the immediate effects on the drawing based on type
@@ -274,6 +275,7 @@ public class DrawingInputHandler : MonoBehaviour
                 );
                 break;
         }
+        _drawing.transform.parent = _drawingParent;
         _isDrawing = false;
         _drawing = null;
     }
