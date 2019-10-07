@@ -11,6 +11,9 @@ public class DrawingInputHandler : MonoBehaviour
     // The prefab to instantiate when creating a drawing
     [SerializeField] private GameObject _drawingPrefab = null;
 
+    // The parent of instantiated drawings
+    [SerializeField] private Transform _drawingParent = null;
+
     // The layermask used to detect if we're drawing on paper
     [SerializeField] private LayerMask _layerMask = 0;
 
@@ -112,7 +115,7 @@ public class DrawingInputHandler : MonoBehaviour
                 _drawingPrefab,
                 point,
                 Quaternion.identity,
-                transform
+                hit.collider.transform
             ).GetComponent<Drawing>();
 
             // Apply the immediate effects on the drawing based on type
@@ -216,15 +219,16 @@ public class DrawingInputHandler : MonoBehaviour
             }
             else
             {
+                // We don't want to do this anymore, because the level scrolls
                 // The user just clicked, delete the drawing
-                Destroy(_drawing.gameObject);
+                //Destroy(_drawing.gameObject);
 
                 if (_debugLogEnabled)
                 {
                     Debug.Log(
                         _drawing.name + ": " +
-                        "Stopped drawing at the same point as start, " +
-                        "delete drawing.",
+                        "Stopped drawing at the same point as start, " /*+
+                        "delete drawing."*/,
                         this
                     );
                 }
@@ -241,16 +245,19 @@ public class DrawingInputHandler : MonoBehaviour
             // ... and they're staying within the allowed area
             if (_canDraw)
             {
-                // ... and moving their cursor
-                if (Input.mousePosition != _previousMousePosition)
-                {
-                    // Add to the drawing / line renderer
-                    Vector2 point =
-                        _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                // Add to the drawing / line renderer
+                Vector2 point =
+                    _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-                    _drawing.AddPoint(point);
-                    _previousMousePosition = Input.mousePosition;
-                }
+                _drawing.AddPoint(point);
+                _previousMousePosition = Input.mousePosition;
+
+                // Now that the paper is always moving we probably
+                // don't want to check mouse movement
+                // ... and moving their cursor
+                //if (Input.mousePosition != _previousMousePosition)
+                //{
+                //}
             }
             else
             {

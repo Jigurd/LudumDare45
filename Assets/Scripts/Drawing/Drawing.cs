@@ -79,10 +79,13 @@ public class Drawing : MonoBehaviour
                 points[i] += movementSinceLastFrame;
 
                 // The position of this point relative to points[0]
+                // We no longer need this since we have no rotating stuff
+                /*
                 Vector2 relativePosition = points[i] - points[0];
                 points[i] =
                     points[0] + Quaternion.Euler(0, 0, rotationSinceLastFrame)
                     * relativePosition;
+                */
             }
             _lineRenderer.SetPositions(points);
 

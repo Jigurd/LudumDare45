@@ -21,6 +21,10 @@ public class LevelScrolling : MonoBehaviour
     {
         // Instantiate one sheet of paper
         _papers = new List<Transform>();
+    }
+
+    private void Start()
+    {
         _papers.Add(Instantiate(
             _paperPrefab,
             Vector3.zero,

@@ -55,22 +55,29 @@ public class DrawingCollider : MonoBehaviour
             //HashSet<Vector2> collisionPoints = new HashSet<Vector2>();
             Vector2 position = transform.position;
             _collider.pathCount = points.Length - 1;
+
+            // Set up our variables
+            int i = points.Length - 1;
+            Vector2 p1 = points[i - 1];
+            Vector2 p2 = points[i];
+            Vector2 v = (p2 - p1).normalized;
+            Vector2 n = Vector2.Perpendicular(v);
+
+            // Create a path
+            Vector2[] path = new Vector2[4];
+            path[0] = p1 /*- r * v*/ - r * n - position;
+            path[1] = p2 /*+ r * v*/ - r * n - position;
+            path[2] = p2 /*+ r * v*/ + r * n - position;
+            path[3] = p1 /*- r * v*/ + r * n - position;
+
+            _collider.SetPath(i - 1, path);
+
+            /*
             for (int i = 1; i < points.Length; i++)
             {
-                // Set up our variables
-                Vector2 p1 = points[i - 1];
-                Vector2 p2 = points[i];
-                Vector2 v = (p2 - p1).normalized;
-                Vector2 n = Vector2.Perpendicular(v);
 
-                // Create a path
-                Vector2[] path = new Vector2[4];
-                path[0] = p1 /*- r * v*/ - r * n - position;
-                path[1] = p2 /*+ r * v*/ - r * n - position;
-                path[2] = p2 /*+ r * v*/ + r * n - position;
-                path[3] = p1 /*- r * v*/ + r * n - position;
-                _collider.SetPath(i - 1, path);
             }
+            */
             //_collider.points = something;//collisionPoints.ToArray();
         }
     }
