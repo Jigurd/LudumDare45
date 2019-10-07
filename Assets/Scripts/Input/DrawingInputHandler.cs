@@ -101,7 +101,7 @@ public class DrawingInputHandler : MonoBehaviour
         }
 
         // User starts holding left mouse button
-        if (!_isDrawing && Input.GetMouseButtonDown(0))
+        if (!_isDrawing && _canDraw && Input.GetMouseButtonDown(0))
         {
             // Start drawing
             _isDrawing = true;
@@ -197,24 +197,7 @@ public class DrawingInputHandler : MonoBehaviour
                 // Set up the drawing based on the selected type
                 // Effects that should apply when finished drawing are:
                 //     1. Gravity (probably it tbh)
-                GameObject drawingGO = _drawing.gameObject;
-                switch (_selectedDrawingType)
-                {
-                    case DrawingType.Doodle:
-                        // Don't need anything
-                        break;
-                    case DrawingType.Standard:
-                        break;
-                    case DrawingType.Gravity:
-                        Rigidbody2D rb = drawingGO.AddComponent<Rigidbody2D>();
-                        break;
-                    default:
-                        // Should never happen
-                        Debug.LogError(
-                            "Non-existing enum value selected?", this
-                        );
-                        break;
-                }
+                FinishDrawing();
 
             }
             else
@@ -261,13 +244,40 @@ public class DrawingInputHandler : MonoBehaviour
             }
             else
             {
-                // Went outside bounds, destroy drawing
-                Destroy(_drawing.gameObject);
-                _isDrawing = false;
-                _drawing = null;
+                // Went outside bounds, finish drawing
+                //Destroy(_drawing.gameObject);
+                FinishDrawing();
             }
         }
     }
+
+    /// <summary>
+    /// Finishes drawing
+    /// </summary>
+    private void FinishDrawing()
+    {
+        GameObject drawingGO = _drawing.gameObject;
+        switch (_selectedDrawingType)
+        {
+            case DrawingType.Doodle:
+                // Don't need anything
+                break;
+            case DrawingType.Standard:
+                break;
+            case DrawingType.Gravity:
+                Rigidbody2D rb = drawingGO.AddComponent<Rigidbody2D>();
+                break;
+            default:
+                // Should never happen
+                Debug.LogError(
+                    "Non-existing enum value selected?", this
+                );
+                break;
+        }
+        _isDrawing = false;
+        _drawing = null;
+    }
+
     /// <summary>
     /// Sets the selected drawing mode.
     /// </summary>

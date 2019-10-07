@@ -42,7 +42,7 @@ public class LevelScrolling : MonoBehaviour
         }
 
         // Instantiate new papers
-        if (_papers[_papers.Count - 1].position.y <= 5.0f)
+        if (_papers[_papers.Count - 1].position.y <= 50.0f)
         {
             // Get the height of the paper so we can instantiate
             // it at the right place
@@ -63,7 +63,7 @@ public class LevelScrolling : MonoBehaviour
 
         // Delete old papers
         // TODO: Get deletion point from bounds
-        if (_papers[0].position.y < -50.0f)
+        if (_papers[0].position.y < -100.0f)
         {
             Destroy(_papers[0].gameObject);
             _papers.RemoveAt(0);

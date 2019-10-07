@@ -11,6 +11,9 @@ public class CameraResizer : MonoBehaviour
     // The desired half width of the camera view
     [SerializeField] private float _orthographicWidth = 5.0f;
 
+    // The desired half height of the camera view
+    [SerializeField] private float _orthographicHeight = 16.97f;
+
     // The current width of the screen
     private float _screenWidth = 0.0f;
 
@@ -52,10 +55,23 @@ public class CameraResizer : MonoBehaviour
         _screenWidth = Screen.width;
         _screenHeight = Screen.height;
 
+        _camera.orthographicSize = _orthographicHeight;
+
+
         // The orthographic size is 1/2 the height of the view
         // in Unity units. Apply some maths and:
-        _camera.orthographicSize =
-            (_orthographicWidth * _screenHeight) /
-            (_screenWidth);
+
+        // Make sure the camera is at least
+        // our desired orthographic width
+        float width =
+            _screenWidth * _camera.orthographicSize /
+            _screenHeight;
+
+        if (width < _orthographicWidth)
+        {
+            _camera.orthographicSize =
+                (_orthographicWidth * _screenHeight) /
+                (_screenWidth);
+        }
     }
 }
