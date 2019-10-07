@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 100
-  _distanceToPlayer: 0
+  _distanceToPlayer: 4
   _layerMask:
     serializedVersion: 2
     m_Bits: 4352
