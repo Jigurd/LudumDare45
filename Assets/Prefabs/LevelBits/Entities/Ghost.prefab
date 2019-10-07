@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1048536251633157063}
   m_Layer: 9
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_SortingLayerID: 1212751175
   m_SortingLayer: 4
   m_SortingOrder: 999
-  m_Sprite: {fileID: 21300000, guid: c3fb4a7e6e9aa754d963b47fad60c0df, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 59b7b064fb002694caa27ee9222dd1cc, type: 3}
+  m_Color: {r: 0.2216981, g: 0.93852603, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85baa72612020f4cb9757c172b8de9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10
-  _distanceToPlayer: 4
+  _moveSpeed: 20
+  _hoverDistance: 4
   _layerMask:
     serializedVersion: 2
     m_Bits: 4352
@@ -113,16 +113,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.2, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.4, y: 1.4}
   m_EdgeRadius: 0

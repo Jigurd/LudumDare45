@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        CheckInBounds();
         HandleMovement();
     }
 
@@ -82,20 +81,11 @@ public class PlayerController : MonoBehaviour
     //    //if it hits, win
     //}
 
-    //checks if the player is still in the level
-    void CheckInBounds()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if character is far out of bounds
-        if (Mathf.Abs(transform.position.x) > 40 || Mathf.Abs(transform.position.y) > 40)
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            actor.velocity = new Vector3(0, 0); //reset speed
-            transform.position = SpawnPoint.transform.position;
+            Debug.Log("I died.");
         }
-    }
-
-    void WinLevel()
-    {
-        Debug.Log("Yay, you win!");
-        SceneManager.LoadScene("Level" + ++GameState.CurrentLevel);
     }
 }

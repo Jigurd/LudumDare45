@@ -8,12 +8,11 @@ public class Ghost : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     [SerializeField]
-    public float MoveSpeed;
+    private float _moveSpeed = 20;
     [SerializeField]
-    private float _distanceToPlayer;
+    private float _hoverDistance;
     private Vector3 _targetVector;
     private Vector3 _targetPosition;
-    private Vector3 _divePosition;
 
     [SerializeField]
     private LayerMask _layerMask;
@@ -31,9 +30,10 @@ public class Ghost : MonoBehaviour
     void Start()
     {
         _player = GameObject.Find("Player");
+
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
-        //set a random point for the ghost to aim to stay at
+        //set a point for the ghost to aim to stay at
         GenerateTargetVector();
 
         _hoverTime = Random.Range(_minHoverTime, _maxHoverTime);
@@ -57,8 +57,7 @@ public class Ghost : MonoBehaviour
                     //update target position
                     _targetPosition = _player.transform.position + _targetVector;
                     //move speed towards target, until we reach the position
-
-                    Move(_targetPosition, MoveSpeed);
+                    Move(_targetPosition, _moveSpeed);
 
                     //if we've hovered for long enoguh
                     if (Time.time > _timeEnteredState + _hoverTime)
@@ -78,69 +77,85 @@ public class Ghost : MonoBehaviour
                         if (--_numOfDives > 0)
                         {
                             //set a target through player, plus twice their hover distance
-                            _targetPosition = (_player.transform.position - transform.position).normalized * _distanceToPlayer * 3;
+                            _targetPosition = (_player.transform.position - transform.position).normalized * _hoverDistance * 3;
 
-                        } else
-                        {
-                            _targetPosition = (_player.transform.position - transform.position).normalized * _distanceToPlayer * 999;
                         }
-                            state = State.Dive;
+                        else
+                        {
+                            _targetPosition = (_player.transform.position - transform.position).normalized * _hoverDistance * 20;
+                        }
+                        state = State.Dive;
                     }
-                        break;
+                    break;
                 }
             case (State.Dive):
                 {
                     //dive for target until we reach it
-                    Debug.Log(_targetPosition + " And Player Pos: " + _player.transform.position);
-                    if (Move(_targetPosition, MoveSpeed * 2))
+                    //Debug.Log(_targetPosition + " And Player Pos: " + _player.transform.position);
+                    if (Move(_targetPosition, _moveSpeed))
                     {
                         //we reached it
+                        //if we have more dives
+                        if (_numOfDives>0)
+                        {
                         //got to return state
                         state = State.Return;
+
+                        }
+                        else //go gently into that good night
+                        {
+                            Destroy(this);
+                        }
+                       
                     }
                     break;
                 }
-            case (State.Return):
+            case (State.Return):    //in this state we just try to get back to the player to go for another dive
                 {
+                    if (Vector3.Distance(transform.position, _player.transform.position) > _hoverDistance)
+                    {
+                        Move(_player.transform.position, _moveSpeed*2);
+                    }
+                    else
+                    {
+                        //if we've gotten back to the player
+
+                        //find a new place to hover
+                        GenerateTargetVector();
+                        
+                        //return to hover state
+                        state = State.Hover;
+                    }
                     break;
                 }
             default: break;
         }
     }
 
+    //returns true if we're at the destination
     private bool Move(Vector3 targetPos, float speed)
     {
         Vector3 direction = (targetPos - transform.position).normalized;
-        if (Vector3.Distance(transform.position, targetPos) > speed / 100)
+        Vector3 movement = direction * speed * Time.deltaTime;
+        if (Vector3.Distance(transform.position, targetPos) > movement.magnitude)
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(movement);
             return false;
         }
         else
         {
+            transform.Translate(direction * Vector3.Distance(transform.position, targetPos));
             return true;
         }
     }
 
-    //returns true if we're within 1% of speed's movement of the destination. Basically, if we're there
-    private bool Move(Vector3 targetPos)
-    {
-        Vector3 direction = (targetPos).normalized;
-        if (Vector3.Distance(transform.position, targetPos) > MoveSpeed / 100)
-        {
-            transform.Translate(direction * MoveSpeed * Time.deltaTime);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+
 
     private void GenerateTargetVector()
     {
-        float angle = Random.Range(0, Mathf.PI * 2);
-        _targetVector = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)).normalized * _distanceToPlayer;
+        //take the vector from the player to me, normalize it
+        //that's our new target vector
+        _targetVector = (transform.position - _player.transform.position).normalized * _hoverDistance;
     }
 
 
