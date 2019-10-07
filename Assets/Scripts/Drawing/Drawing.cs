@@ -15,7 +15,7 @@ public class Drawing : MonoBehaviour
     [SerializeField] private Color _color = Color.red;
 
     // The maximum length of the drawing
-    [SerializeField] private float _maxLength = 2.5f;
+    [SerializeField] private float _maxLength = 4f;
 
     // The current length of the drawing
     private float _length = 0.0f;
@@ -126,7 +126,7 @@ public class Drawing : MonoBehaviour
         if (_length > _maxLength)
         {
             // Remove points until our drawing is small
-            Debug.Log("Removing length: ");
+            //Debug.Log("Removing length: ");
             while (_length > _maxLength && _points.Count > 1)
             {
                 // Remove the first point entirely

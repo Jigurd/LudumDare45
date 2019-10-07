@@ -65,12 +65,6 @@ public class DrawingInputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Don't do anything if game is paused
-        if (GameState.Paused)
-        {
-            return;
-        }
-
         // Check if drawing is allowed
         // i.e. at least one paper has the mouse over it
         _canDraw = false;
@@ -100,6 +94,19 @@ public class DrawingInputHandler : MonoBehaviour
             _canDraw = true;
             _drawingParent = hit.collider.transform;
         }
+        // Don't do anything if game is paused
+        if (GameState.Paused)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameState.Paused = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+
 
         // User starts holding left mouse button
         if (!_isDrawing && _canDraw && Input.GetMouseButtonDown(0))
@@ -183,10 +190,10 @@ public class DrawingInputHandler : MonoBehaviour
 
             if (_debugLogEnabled)
             {
-                Debug.Log(
-                    _drawing.name + ": " +
-                    "Stop drawing at " + point + ".", this
-                );
+                //Debug.Log(
+                //    _drawing.name + ": " +
+                //    "Stop drawing at " + point + ".", this
+                //);
             }
             
             // Check if the user actually drew something

@@ -39,6 +39,8 @@ public class LevelScrolling : MonoBehaviour
         {
             return;
         }
+        
+        _speed += Time.deltaTime * 0.001f;
 
         // Scroll
         foreach (Transform paper in _papers)

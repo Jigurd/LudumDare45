@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     // Whether the pause menu is enabled or not
     private bool _enabled = true;
+
+    [SerializeField] private Text _text;
 
     private void Awake()
     {
@@ -37,15 +40,30 @@ public class PauseMenu : MonoBehaviour
             child.gameObject.SetActive(enabled);
         }
 
+        if (GameState.Lost)
+        {
+            // Say you lose and ask if player wants to try again
+            _text.text = "You lost.\nHigh Score: " + GameState.HighScore;
+        }
+        else
+        {
+            _text.text = "Game is paused.";
+        }
+
         if (_enabled)
         {
             // Pause the game
+            GameState.CanDraw = false;
             GameState.Paused = true;
+            GameState.PauseMenuEnabled = true;
         }
         else
         {
             // Resume the game
-            GameState.Paused = false;
+            GameState.CanDraw = true;
+            GameState.Paused = true;
+            GameState.PauseMenuEnabled = false;
+            GameState.Lost = false;
         }
     }
 }

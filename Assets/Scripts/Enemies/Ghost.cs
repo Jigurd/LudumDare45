@@ -45,6 +45,10 @@ public class Ghost : MonoBehaviour
 
     void Update()
     {
+        if (GameState.Lost)
+        {
+            Destroy(gameObject);
+        }
         if (GameState.Paused)
         {
             return;

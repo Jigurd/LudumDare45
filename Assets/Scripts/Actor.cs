@@ -45,13 +45,16 @@ public class Actor : MonoBehaviour
             return;
         }
         //apply gravity to velocity
-
-        velocity.y += gravity * Time.deltaTime;
-
         //if we're falling, apply fallTimeMultiplier to fall faster. This skews our jump arc right.
         if(velocity.y<0)
         {
-            velocity.y *= fallSpeedMultiplier;
+            velocity.y += fallSpeedMultiplier * gravity * Time.deltaTime;
+        }
+        else
+        {
+
+            velocity.y += gravity * Time.deltaTime;
+
         }
 
 
